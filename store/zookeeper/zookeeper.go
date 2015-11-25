@@ -286,6 +286,9 @@ func (s *Zookeeper) DeleteTree(directory string) error {
 
 	sort.Sort(sort.Reverse(store.KVPareSlice(pairs)))
 	for _, pair := range pairs {
+		if strings.HasPrefix(pair.Key, "zookeeper") {
+			continue
+		}
 		reqs = append(reqs, &zk.DeleteRequest{
 			Path:    s.normalize(pair.Key),
 			Version: -1,
